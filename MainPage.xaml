@@ -10,13 +10,15 @@
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
-
             <toolkit:MediaElement x:Name="mediaElement"
-                                  IsVisible="False"/>
-            <Button x:Name="uploadButton"
-                    Text="Upload MP3"
-                    Clicked="UploadButton_OnClicked" />
+                                  IsVisible="False" />
+            <Label x:Name="progressLabel" 
+                   Text="0:00 / 0:00" 
+                   HorizontalOptions="CenterAndExpand" />
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button x:Name="uploadButton"
+                        Text="Upload MP3"
+                        Clicked="UploadButton_OnClicked" />
                 <Button x:Name="playButton" 
                         Text="Play" 
                         Clicked="PlayButton_OnClicked"

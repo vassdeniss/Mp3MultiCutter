@@ -11,10 +11,6 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         this.InitializeComponent();
-        this.mediaElement.WidthRequest = DeviceDisplay
-            .Current
-            .MainDisplayInfo
-            .Width;
     }
 
     private async void UploadButton_OnClicked(object? sender, EventArgs e)
@@ -33,9 +29,9 @@ public partial class MainPage : ContentPage
                 return;
             }
 
+            this.playButton.IsEnabled = true;
             this.mediaElement.Source = result.FullPath;
             this._totalDuration = this.mediaElement.Duration;
-            this.mediaElement.Play();
         }
         catch (Exception ex)
         {
@@ -45,8 +41,16 @@ public partial class MainPage : ContentPage
 
     private void PlayButton_OnClicked(object? sender, EventArgs e)
     {
-        this.mediaElement.Play();
-        this._isPlaying = true;
+        if (this._isPlaying)
+        {
+            this.mediaElement.Pause();
+            this._isPlaying = false;
+        }
+        else
+        {
+            this.mediaElement.Play();
+            this._isPlaying = true;
+        }
     }
 
     private void MainPage_OnUnloaded(object? sender, EventArgs e)

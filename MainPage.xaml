@@ -17,7 +17,10 @@
                     Text="Upload MP3"
                     Clicked="UploadButton_OnClicked" />
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Button Text="Play" Clicked="PlayButton_OnClicked" />
+                <Button x:Name="playButton" 
+                        Text="Play" 
+                        Clicked="PlayButton_OnClicked"
+                        IsEnabled="false" />
             </StackLayout>
         </VerticalStackLayout>
     </ScrollView>

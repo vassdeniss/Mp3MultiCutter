@@ -12,13 +12,13 @@
             VerticalOptions="Center">
 
             <toolkit:MediaElement x:Name="mediaElement"
-                                  ShouldAutoPlay="false"
-                                  ShouldShowPlaybackControls="True"
-                                  HeightRequest="500"
-                                  WidthRequest="300" />
+                                  IsVisible="False"/>
             <Button x:Name="uploadButton"
                     Text="Upload MP3"
                     Clicked="UploadButton_OnClicked" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button Text="Play" Clicked="PlayButton_OnClicked" />
+            </StackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

@@ -31,6 +31,11 @@ public partial class MainPage : ContentPage
             }
 
             this.playButton.IsEnabled = true;
+            this.rewind15Button.IsEnabled = true;
+            this.rewind60Button.IsEnabled = true;
+            this.forward15Button.IsEnabled = true;
+            this.forward60Button.IsEnabled = true;
+
             this.mediaElement.Source = result.FullPath;
             this.mediaElement.MediaOpened += MediaElementOnMediaOpened;
             this.playButton.ImageSource = "pause_16.png";
@@ -97,16 +102,49 @@ public partial class MainPage : ContentPage
 
         timer.Tick += (_, _) =>
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                this._currentPosition = this.mediaElement.Position;
-                this.progressLabel.Text = $"{this._currentPosition:mm\\:ss} / {this._totalDuration:mm\\:ss}";
-            });
+            this._currentPosition = this.mediaElement.Position;
+            this.UpdateTimeLabel();
         };
 
         timer.Start();
 
         return timer;
+    }
+
+    private void Rewind60Button_OnClicked(object? sender, EventArgs e)
+    {
+        this._currentPosition = this._currentPosition.Subtract(TimeSpan.FromSeconds(60));
+        this.mediaElement.SeekTo(this._currentPosition);
+        this.UpdateTimeLabel();
+    }
+
+    private void Rewind15Button_OnClicked(object? sender, EventArgs e)
+    {
+        this._currentPosition = this._currentPosition.Subtract(TimeSpan.FromSeconds(15));
+        this.mediaElement.SeekTo(this._currentPosition);
+        this.UpdateTimeLabel();
+    }
+
+    private void Forward15Button_OnClicked(object? sender, EventArgs e)
+    {
+        this._currentPosition = this._currentPosition.Add(TimeSpan.FromSeconds(15));
+        this.mediaElement.SeekTo(this._currentPosition);
+        this.UpdateTimeLabel();
+    }
+
+    private void Forward60Button_OnClicked(object? sender, EventArgs e)
+    {
+        this._currentPosition = this._currentPosition.Add(TimeSpan.FromSeconds(60));
+        this.mediaElement.SeekTo(this._currentPosition);
+        this.UpdateTimeLabel();
+    }
+
+    private void UpdateTimeLabel()
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            this.progressLabel.Text = $@"{this._currentPosition:mm\:ss} / {this._totalDuration:mm\:ss}";
+        });
     }
 
     private void MainPage_OnUnloaded(object? sender, EventArgs e)

@@ -21,13 +21,37 @@
                    Text="00:00 / 00:00" 
                    HorizontalOptions="CenterAndExpand" />
             <StackLayout Orientation="Horizontal" 
-                         HorizontalOptions="CenterAndExpand">
-
-            <Button x:Name="playButton" 
+                         HorizontalOptions="CenterAndExpand"
+                         Spacing="12">
+                <Button x:Name="rewind60Button" 
+                        Clicked="Rewind60Button_OnClicked"
+                        IsEnabled="false"
+                        ImageSource="rewind_16.png"
+                        Text="60"
+                        BackgroundColor="Tan" />
+                <Button x:Name="rewind15Button" 
+                        Clicked="Rewind15Button_OnClicked"
+                        IsEnabled="false"
+                        ImageSource="rewind_16.png"
+                        Text="15"
+                        BackgroundColor="Tan" />
+                <Button x:Name="playButton" 
                         Clicked="PlayButton_OnClicked"
                         IsEnabled="false"
                         ImageSource="play_16.png"
                         BackgroundColor="Tan" />
-            </StackLayout>
+                <Button x:Name="forward15Button" 
+                        Clicked="Forward15Button_OnClicked"
+                        IsEnabled="false"
+                        ImageSource="forward_16.png"
+                        Text="15"
+                        BackgroundColor="Tan" />
+                <Button x:Name="forward60Button" 
+                        Clicked="Forward60Button_OnClicked"
+                        IsEnabled="false"
+                        ImageSource="forward_16.png"
+                        Text="60"
+                        BackgroundColor="Tan" />
+        </StackLayout>
         </VerticalStackLayout>
 </ContentPage>

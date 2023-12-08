@@ -5,10 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Mp3MultiCutter"
     Shell.FlyoutBehavior="Disabled"
-    Title="Mp3MultiCutter">
+    Title="Mp3MultiCutter"
+    TitleColor="{AppThemeBinding Light=Black, Dark=White}">
 
     <ShellContent
-        Title="Home"
+        Title="Mp3 Multi Cutter"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

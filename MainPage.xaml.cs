@@ -33,7 +33,7 @@ public partial class MainPage : ContentPage
             this.playButton.IsEnabled = true;
             this.mediaElement.Source = result.FullPath;
             this.mediaElement.MediaOpened += MediaElementOnMediaOpened;
-            this.mediaElement.Play();
+            this.playButton.ImageSource = "pause_16.png";
             this._isPlaying = true;
 
             this._timer = this.SetUpAudioTimer();
@@ -63,18 +63,22 @@ public partial class MainPage : ContentPage
             this._totalDuration = this.mediaElement.Duration;
             durationTimer.Stop();
         };
+
+        durationTimer.Start();
     }
 
     private void PlayButton_OnClicked(object? sender, EventArgs e)
     {
         if (this._isPlaying)
         {
+            this.playButton.ImageSource = "play_16.png";
             this._timer!.Stop();
             this.mediaElement.Pause();
             this._isPlaying = false;
         }
         else
         {
+            this.playButton.ImageSource = "pause_16.png";
             this._timer!.Start();
             this.mediaElement.Play();
             this._isPlaying = true;

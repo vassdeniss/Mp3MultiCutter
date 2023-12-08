@@ -4,26 +4,30 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Mp3MultiCutter.MainPage"
              Unloaded="MainPage_OnUnloaded">
-
-    <ScrollView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{AppThemeBinding 
+            Light='upload_dark_16.png', 
+            Dark='upload_16.png'}"
+                     Clicked="UploadButton_OnClicked"
+                     Order="Primary" />
+    </ContentPage.ToolbarItems>
         <VerticalStackLayout
             Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+            Padding="30, 20">
             <toolkit:MediaElement x:Name="mediaElement"
-                                  IsVisible="False" />
+                                  IsVisible="False"
+                                  ShouldAutoPlay="True" />
             <Label x:Name="progressLabel" 
-                   Text="0:00 / 0:00" 
+                   Text="00:00 / 00:00" 
                    HorizontalOptions="CenterAndExpand" />
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Button x:Name="uploadButton"
-                        Text="Upload MP3"
-                        Clicked="UploadButton_OnClicked" />
-                <Button x:Name="playButton" 
-                        Text="Play" 
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="CenterAndExpand">
+
+            <Button x:Name="playButton" 
                         Clicked="PlayButton_OnClicked"
-                        IsEnabled="false" />
+                        IsEnabled="false"
+                        ImageSource="play_16.png"
+                        BackgroundColor="Tan" />
             </StackLayout>
         </VerticalStackLayout>
-    </ScrollView>
 </ContentPage>

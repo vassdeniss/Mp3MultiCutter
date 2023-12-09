@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:primitives="clr-namespace:CommunityToolkit.Maui.Core.Primitives;assembly=CommunityToolkit.Maui.MediaElement"
+             xmlns:mp3MultiCutter="clr-namespace:Mp3MultiCutter"
              x:Class="Mp3MultiCutter.MainPage"
              Unloaded="MainPage_OnUnloaded">
     <ContentPage.ToolbarItems>
@@ -28,6 +29,7 @@
             <Setter Property="BackgroundColor"
                     Value="Tan"></Setter>
         </Style>
+        <mp3MultiCutter:TimeSpanConverter x:Key="TimeSpanConverter" />
     </ContentPage.Resources>
     <VerticalStackLayout Spacing="25"
                          Padding="30, 20">
@@ -41,6 +43,7 @@
         <Grid RowSpacing="12" 
               ColumnSpacing="12">
             <Grid.RowDefinitions>
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -107,6 +110,15 @@
                     Clicked="CutButton_OnClicked"
                     ImageSource="cut_16.png" />
         </Grid>
+        <CollectionView ItemsSource="{Binding Cuts}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Label Text="{Binding ., Converter={StaticResource TimeSpanConverter}}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>
  

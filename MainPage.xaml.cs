@@ -1,4 +1,8 @@
 ﻿using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Storage;
+
+using NAudio.Lame;
+using NAudio.Wave;
 
 using System.Collections.ObjectModel;
 
@@ -6,6 +10,8 @@ namespace Mp3MultiCutter;
 
 public partial class MainPage : ContentPage
 {
+    private string? _inputFilePath = null;
+
     public MainPage()
     {
         this.InitializeComponent();
@@ -30,6 +36,7 @@ public partial class MainPage : ContentPage
                 throw new Exception("File is not mmp3!");
             }
 
+            this._inputFilePath = result.FullPath;
             this.mediaElement.Source = result.FullPath;
         }
         catch (Exception ex)
@@ -87,10 +94,56 @@ public partial class MainPage : ContentPage
     {
         this.Cuts.Add(this.mediaElement.Position);
         this.removeButton.IsEnabled = true;
+    }
+
     private void RemoveButton_OnClicked(object? sender, EventArgs e)
     {
         this.Cuts.Remove(this.Cuts.Last());
         this.removeButton.IsEnabled = this.Cuts.Count > 0;
     }
+
+    private async void SaveButton_OnClicked(object? sender, EventArgs e)
+    {
+        if (this.Cuts.Count < 2 || this._inputFilePath is null)
+        {
+            return;
+        }
+
+        FolderPickerResult folder = await FolderPicker.Default.PickAsync();
+        if (folder.Folder is null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < this.Cuts.Count - 1; i++)
+        {
+            TimeSpan startTime = this.Cuts[i];
+            TimeSpan endTime = this.Cuts[i + 1];
+
+            this.SaveSegment(folder.Folder.Path + $@"\{i + 1:D2}.mp3", startTime, endTime);
+        }
+
+        await this.DisplayAlert("Success", "Files saved!", "OK");
+    }
+
+    public void SaveSegment(string outputFilePath, TimeSpan startTime, TimeSpan endTime)
+    {
+        using Mp3FileReader reader = new(this._inputFilePath);
+        reader.CurrentTime = startTime;
+
+        using LameMP3FileWriter writer = new(outputFilePath, reader.WaveFormat, LAMEPreset.STANDARD);
+
+        byte[] buffer = new byte[reader.WaveFormat.AverageBytesPerSecond];
+        while (reader.CurrentTime < endTime)
+        {
+            int bytesRead = reader.Read(buffer, 0, buffer.Length);
+            if (bytesRead == 0)
+            {
+                break;
+            }
+
+
+            writer.Write(buffer, 0, bytesRead);
+        }
     }
 }

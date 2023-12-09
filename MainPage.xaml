@@ -8,6 +8,11 @@
              Unloaded="MainPage_OnUnloaded">
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{AppThemeBinding 
+            Light='save_dark_16.png', 
+            Dark='save_16.png'}"
+                     Clicked="SaveButton_OnClicked"
+                     Order="Primary" />
+        <ToolbarItem IconImageSource="{AppThemeBinding 
             Light='upload_dark_16.png', 
             Dark='upload_16.png'}"
                      Clicked="UploadButton_OnClicked"

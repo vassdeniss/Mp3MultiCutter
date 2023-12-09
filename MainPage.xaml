@@ -109,6 +109,13 @@
                     Style="{StaticResource ButtonStyle}"
                     Clicked="CutButton_OnClicked"
                     ImageSource="cut_16.png" />
+            <Button Grid.Row="2"
+                    Grid.Column="2"
+                    x:Name="removeButton"
+                    Clicked="RemoveButton_OnClicked"
+                    ImageSource="x_16.png"
+                    IsEnabled="False"
+                    BackgroundColor="Tan" />
         </Grid>
         <CollectionView ItemsSource="{Binding Cuts}">
             <CollectionView.ItemTemplate>

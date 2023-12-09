@@ -9,6 +9,8 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         this.InitializeComponent();
+
+        this.BindingContext = this;
     }
 
     public ObservableCollection<TimeSpan> Cuts { get; } = new();
@@ -84,5 +86,11 @@ public partial class MainPage : ContentPage
     private void CutButton_OnClicked(object? sender, EventArgs e)
     {
         this.Cuts.Add(this.mediaElement.Position);
+        this.removeButton.IsEnabled = true;
+    private void RemoveButton_OnClicked(object? sender, EventArgs e)
+    {
+        this.Cuts.Remove(this.Cuts.Last());
+        this.removeButton.IsEnabled = this.Cuts.Count > 0;
+    }
     }
 }

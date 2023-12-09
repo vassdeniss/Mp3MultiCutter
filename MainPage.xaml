@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:primitives="clr-namespace:CommunityToolkit.Maui.Core.Primitives;assembly=CommunityToolkit.Maui.MediaElement"
              x:Class="Mp3MultiCutter.MainPage"
              Unloaded="MainPage_OnUnloaded">
     <ContentPage.ToolbarItems>
@@ -11,47 +12,95 @@
                      Clicked="UploadButton_OnClicked"
                      Order="Primary" />
     </ContentPage.ToolbarItems>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30, 20">
-            <toolkit:MediaElement x:Name="mediaElement"
-                                  IsVisible="False"
-                                  ShouldAutoPlay="True" />
-            <Label x:Name="progressLabel" 
-                   Text="00:00 / 00:00" 
-                   HorizontalOptions="CenterAndExpand" />
-            <StackLayout Orientation="Horizontal" 
-                         HorizontalOptions="CenterAndExpand"
-                         Spacing="12">
-                <Button x:Name="rewind60Button" 
-                        Clicked="Rewind60Button_OnClicked"
-                        IsEnabled="false"
-                        ImageSource="rewind_16.png"
-                        Text="60"
-                        BackgroundColor="Tan" />
-                <Button x:Name="rewind15Button" 
-                        Clicked="Rewind15Button_OnClicked"
-                        IsEnabled="false"
-                        ImageSource="rewind_16.png"
-                        Text="15"
-                        BackgroundColor="Tan" />
-                <Button x:Name="playButton" 
-                        Clicked="PlayButton_OnClicked"
-                        IsEnabled="false"
-                        ImageSource="play_16.png"
-                        BackgroundColor="Tan" />
-                <Button x:Name="forward15Button" 
-                        Clicked="Forward15Button_OnClicked"
-                        IsEnabled="false"
-                        ImageSource="forward_16.png"
-                        Text="15"
-                        BackgroundColor="Tan" />
-                <Button x:Name="forward60Button" 
-                        Clicked="Forward60Button_OnClicked"
-                        IsEnabled="false"
-                        ImageSource="forward_16.png"
-                        Text="60"
-                        BackgroundColor="Tan" />
-        </StackLayout>
-        </VerticalStackLayout>
+    <ContentPage.Resources>
+        <Style x:Key="ButtonStyle"
+               TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger TargetType="Button"
+                             Binding="{Binding Source={x:Reference mediaElement}, Path=CurrentState}"
+                             Value="{x:Static primitives:MediaElementState.Playing}">
+                    <Setter Property="IsEnabled"
+                            Value="True" />
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="IsEnabled"
+                    Value="False" />
+            <Setter Property="BackgroundColor"
+                    Value="Tan"></Setter>
+        </Style>
+    </ContentPage.Resources>
+    <VerticalStackLayout Spacing="25"
+                         Padding="30, 20">
+        <toolkit:MediaElement x:Name="mediaElement"
+                              IsVisible="False"
+                              ShouldAutoPlay="True"
+                              PositionChanged="MediaElement_OnPositionChanged" />
+        <Label x:Name="progressLabel" 
+               Text="00:00 / 00:00" 
+               HorizontalOptions="CenterAndExpand" />
+        <Grid RowSpacing="12" 
+              ColumnSpacing="12">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="1"
+                    Grid.Column="0"
+                    x:Name="rewind60Button" 
+                    Style="{StaticResource ButtonStyle}"
+                    Clicked="Rewind60Button_OnClicked"
+                    ImageSource="rewind_16.png"
+                    Text="60" />
+            <Button Grid.Row="1"
+                    Grid.Column="1"
+                    x:Name="rewind15Button"
+                    Style="{StaticResource ButtonStyle}"
+                    Clicked="Rewind15Button_OnClicked"
+                    ImageSource="rewind_16.png"
+                    Text="15" />
+            <Button Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    x:Name="playButton" 
+                    Style="{StaticResource ButtonStyle}"
+                    Clicked="PlayButton_OnClicked"
+                    ImageSource="play_16.png">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference mediaElement}, Path=CurrentState}"
+                                 Value="{x:Static primitives:MediaElementState.Playing}">
+                        <Setter Property="ImageSource"
+                                Value="pause_16.png" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference mediaElement}, Path=CurrentState}"
+                                 Value="{x:Static primitives:MediaElementState.Paused}">
+                        <Setter Property="ImageSource"
+                                Value="play_16.png" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button Grid.Row="1"
+                    Grid.Column="2"
+                    x:Name="forward15Button" 
+                    Style="{StaticResource ButtonStyle}"
+                    Clicked="Forward15Button_OnClicked"
+                    ImageSource="forward_16.png"
+                    Text="15" />
+            <Button Grid.Row="1"
+                    Grid.Column="3"
+                    x:Name="forward60Button"
+                    Style="{StaticResource ButtonStyle}"
+                    Clicked="Forward60Button_OnClicked"
+                    ImageSource="forward_16.png"
+                    Text="60" />
+        </Grid>
+    </VerticalStackLayout>
 </ContentPage>
+ 

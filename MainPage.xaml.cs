@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core.Primitives;
 
+using System.Collections.ObjectModel;
+
 namespace Mp3MultiCutter;
 
 public partial class MainPage : ContentPage
@@ -8,6 +10,8 @@ public partial class MainPage : ContentPage
     {
         this.InitializeComponent();
     }
+
+    public ObservableCollection<TimeSpan> Cuts { get; } = new();
 
     private async void UploadButton_OnClicked(object? sender, EventArgs e)
     {
@@ -31,7 +35,7 @@ public partial class MainPage : ContentPage
             await this.DisplayAlert("Error", ex.Message, "OK");
         }
     }
-        
+
     private void PlayButton_OnClicked(object? sender, EventArgs e)
     {
         if (this.mediaElement.CurrentState is MediaElementState.Stopped or MediaElementState.Paused)
@@ -75,5 +79,10 @@ public partial class MainPage : ContentPage
     private void MainPage_OnUnloaded(object? sender, EventArgs e)
     {
         this.mediaElement.Handler?.DisconnectHandler();
+    }
+
+    private void CutButton_OnClicked(object? sender, EventArgs e)
+    {
+        this.Cuts.Add(this.mediaElement.Position);
     }
 }

@@ -100,6 +100,12 @@
                     Clicked="Forward60Button_OnClicked"
                     ImageSource="forward_16.png"
                     Text="60" />
+            <Button Grid.Row="2"
+                    Grid.Column="1"
+                    x:Name="cutButton"
+                    Style="{StaticResource ButtonStyle}"
+                    Clicked="CutButton_OnClicked"
+                    ImageSource="cut_16.png" />
         </Grid>
     </VerticalStackLayout>
 </ContentPage>
